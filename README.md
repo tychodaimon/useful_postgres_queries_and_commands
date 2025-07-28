@@ -64,6 +64,7 @@ SELECT
     s.relname AS tablename,
     s.indexrelname AS indexname,
     pg_relation_size(s.indexrelid) AS index_size,
+	pg_size_pretty(pg_relation_size(s.indexrelid)) AS size_pretty,
     s.idx_scan AS index_scans,
     s.idx_tup_read AS tuples_read,
     s.idx_tup_fetch AS tuples_fetched
@@ -72,9 +73,7 @@ JOIN pg_index i ON s.indexrelid = i.indexrelid
 WHERE s.idx_scan = 0
   AND 0 <> ALL (i.indkey)
   AND NOT i.indisunique
-  AND NOT EXISTS (
-    SELECT 1 FROM pg_constraint c WHERE c.conindid = s.indexrelid
-  )
+  AND NOT EXISTS (SELECT 1 FROM pg_constraint c WHERE c.conindid = s.indexrelid)
 ORDER BY pg_relation_size(s.indexrelid) DESC;
 ```
 
