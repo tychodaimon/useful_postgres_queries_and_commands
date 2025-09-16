@@ -8,7 +8,7 @@ A collection of handy SQL queries and CLI commands for PostgreSQL diagnostics, m
 
 ### Show Running Queries
 ```sql
-SELECT pid, age(clock_timestamp(), query_start), usename, ltrim(query, E'\n' || ' ')
+SELECT pid, age(clock_timestamp(), query_start), usename, ltrim(query, E'\n' || ' ') as query
 FROM pg_stat_activity 
 WHERE state != 'idle' 
   AND query NOT ILIKE '%pg_stat_activity%' 
@@ -25,6 +25,11 @@ SELECT pg_cancel_backend(pid);
 ### Terminate an Idle Query
 ```sql
 SELECT pg_terminate_backend(pid);
+```
+
+### Is this onnection repplica or master?
+```sql
+SELECT current_setting('transaction_read_only') = 'on' as is_replica;
 ```
 
 ---
