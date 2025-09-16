@@ -27,7 +27,7 @@ SELECT pg_cancel_backend(pid);
 SELECT pg_terminate_backend(pid);
 ```
 
-### Is this onnection repplica or master?
+### Is this connection repplica or master?
 ```sql
 SELECT current_setting('transaction_read_only') = 'on' as is_replica;
 ```
