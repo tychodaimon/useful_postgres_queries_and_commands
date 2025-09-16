@@ -8,7 +8,7 @@ A collection of handy SQL queries and CLI commands for PostgreSQL diagnostics, m
 
 ### Show Running Queries
 ```sql
-SELECT pid, age(clock_timestamp(), query_start), usename, query 
+SELECT pid, age(clock_timestamp(), query_start), usename, ltrim(query, E'\n' || ' ')
 FROM pg_stat_activity 
 WHERE state != 'idle' 
   AND query NOT ILIKE '%pg_stat_activity%' 
