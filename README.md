@@ -43,6 +43,7 @@ WITH table_sizes AS (
   FROM (
     SELECT c.oid,
            nspname AS table_schema,
+		   case when c.relkind = 'm' then 'view' else 'table' end as "type", 
            relname AS table_name,
            c.reltuples AS row_estimate,
            pg_total_relation_size(c.oid) AS total_bytes,
@@ -50,7 +51,7 @@ WITH table_sizes AS (
            pg_total_relation_size(reltoastrelid) AS toast_bytes
     FROM pg_class c
     LEFT JOIN pg_namespace n ON n.oid = c.relnamespace
-    WHERE relkind = 'r' AND n.nspname NOT IN ('pg_catalog', 'information_schema')
+    WHERE c.relkind IN ('r','m') AND n.nspname NOT IN ('pg_catalog', 'information_schema')
   ) AS stats
   ORDER BY total_bytes DESC
 )
