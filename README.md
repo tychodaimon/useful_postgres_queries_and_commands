@@ -60,7 +60,7 @@ SELECT *,
        pg_size_pretty(index_bytes) AS index,
        pg_size_pretty(toast_bytes) AS toast,
        pg_size_pretty(table_bytes) AS table
-FROM table_sizes;
+FROM table_sizes order by 6 desc;
 ```
 
 ### Unused Indexes
