@@ -4,6 +4,16 @@ A collection of handy SQL queries and CLI commands for PostgreSQL diagnostics, m
 
 ---
 
+## 🔍 Queries for different cases
+
+### Extract hostname from url column
+```sql
+SELECT substring(url_field_name from '.*://([^/]*)' ) as hostname
+FROM public.t_yourtable
+```
+
+---
+
 ## 🔍 Query Monitoring
 
 ### Show Running Queries
